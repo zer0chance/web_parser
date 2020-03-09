@@ -1,0 +1,26 @@
+import requests
+from bs4 import BeautifulSoup
+
+url = 'https://coinmarketcap.com/'
+
+if __name__ == "__main__":
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text, 'html.parser')
+    rows = soup.find_all(class_ = "cmc-table-row")
+    currencies = {}     # dictionary, to store currencies                                  
+
+    for i in range(25):
+        name_and_price = rows[i].find_all("a")      # find all links, because name and price is links
+        market_cup = rows[i].find_all(class_ = "")[1].get_text()
+        currencies[name_and_price[0].get_text()] = [name_and_price[1].get_text(), market_cup]   # name - key
+                                                                                                # value - list of [price, market_cup]    
+    while(True):
+        print("Type cryptocurrency`s name or \"exit\":", end=" ")
+        name = input()
+        if name == "exit":
+            break
+        elif name in currencies:
+            print("\n Price:      " + currencies[name][0])
+            print(" Market cap: " + currencies[name][1], end="\n\n")
+        else:
+            print("\n No such cryptocurrenscy in top 25 \n")    
