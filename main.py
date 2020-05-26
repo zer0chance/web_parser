@@ -16,6 +16,13 @@ def find_currencies():
                                                                                                 # value - list of [price, market_cup]    
     return currencies 
 
+def search(name, currencies):
+    if name in currencies:
+        print("\n Price:      " + currencies[name][0])
+        print(" Market cap: " + currencies[name][1], end="\n\n")
+    else:
+        print("\n No such cryptocurrency in top 25 \n")    
+
 if __name__ == "__main__":
     currencies = find_currencies()
 
@@ -24,8 +31,5 @@ if __name__ == "__main__":
         name = input()
         if name == "exit":
             break
-        elif name in currencies:
-            print("\n Price:      " + currencies[name][0])
-            print(" Market cap: " + currencies[name][1], end="\n\n")
         else:
-            print("\n No such cryptocurrency in top 25 \n")    
+            search(name, currencies)
